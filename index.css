@@ -1,29 +1,33 @@
-/* Remove default browser styling */
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* Custom Checkbox */
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   width: 1.25rem;          /* 20px */
   height: 1.25rem;         /* 20px */
-  border: 1px solid #000;  /* Matches your border-black */
-  border-radius: 0.375rem; /* Matches rounded-md */
+  border: 1.5px solid #cbd5e1;  /* Slate-300 border */
+  border-radius: 0.375rem; /* rounded-md */
   background-color: #fff;
   cursor: pointer;
   display: inline-grid;
   place-content: center;
-  transition: background-color 0.15s ease-in-out, transform 0.1s ease;
+  transition: all 0.15s ease-in-out;
   flex-shrink: 0;
 }
 
 /* Hover state */
 input[type="checkbox"]:hover {
-  border-color: #16a34a;   /* Darker green on hover */
-  background-color: #f0fdf4;
+  border-color: #6366f1;   /* Indigo accent on hover */
+  background-color: #eef2ff;
 }
 
-/* Checked state (matches bg-green-500) */
+/* Checked state */
 input[type="checkbox"]:checked {
-  background-color: #22c55e;
-  border-color: #000;
+  background-color: #6366f1;
+  border-color: #6366f1;
 }
 
 /* Custom checkmark using a pseudo-element */
@@ -33,7 +37,7 @@ input[type="checkbox"]::before {
   height: 0.65rem;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em #000; /* Black checkmark to match your Edit button text */
+  box-shadow: inset 1em 1em #ffffff; /* Clean white checkmark */
   
   /* Draws the checkmark shape */
   transform-origin: bottom left;
@@ -48,4 +52,22 @@ input[type="checkbox"]:checked::before {
 /* Active click bounce effect */
 input[type="checkbox"]:active {
   transform: scale(0.92);
+}
+
+/* Empty state message when list has no tasks */
+#todo-list:empty::after {
+  content: "No tasks yet. Add one above to get started!";
+  display: block;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.8125rem;
+  padding: 2.25rem 1rem;
+  border: 1.5px dashed #e2e8f0;
+  border-radius: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+/* Soft completed task styling */
+#todo-list li p.line-through {
+  opacity: 0.6;
 }

@@ -37,7 +37,8 @@ function loadTodos(){
 let todos = loadTodos();
 
 function saveTodos(){
-    localStorage.setItem("todos", JSON.stringify(todos))
+    localStorage.setItem("todos", JSON.stringify(todos));
+    taskCompleted();                      
 }
 
 
@@ -63,28 +64,28 @@ function renderTodo() {
     todos.forEach((todo) => addTodo(todo));
 }
 
-renderTodo();                                              // Initial render call on page load (runs once at start)
+renderTodo();                                                              // Initial render call on page load (runs once at start)
 
 
 // Function to create DOM elements and inject content into list <li>
 function addTodo(x) {
-    const li = document.createElement("li");               
+    const li = document.createElement("li");   
 
     // Store ID directly on <li> for easy access during event delegation
     li.dataset.id = x.id;
-    li.className = "flex gap-2 border border-slate-500 p-4 rounded-xl bg-slate-200 items-center font-semibold cursor-default";
+    li.className = "group flex items-center gap-3 border border-slate-200/90 p-3.5 rounded-xl bg-white hover:border-slate-300 hover:shadow-xs transition-all duration-150 cursor-pointer select-none";
     
     // Step : Inject inner layout with data attributes for tracking
     li.innerHTML = `
         <input data-id="${x.id}" type="checkbox" ${x.isCompleted ? "checked" : ""}>
-        <p class="flex-1"></p>
-        <div class="flex gap-2">
+        <p class="flex-1 text-sm font-medium text-slate-700 transition-colors duration-150"></p>
+        <div class="flex gap-1.5 items-center">
             <button data-action="edit" data-id="${x.id}"
-                class="px-3 py-1 rounded-lg bg-green-500 text-black text-sm border border-black hover:bg-blue-600 hover:text-white cursor-pointer">
+                class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-indigo-50 text-slate-700 hover:text-indigo-600 text-xs font-semibold border border-slate-200 transition-colors cursor-pointer">
                 Edit
             </button>
             <button data-action="delete" data-id="${x.id}"
-                class="px-3 py-1 rounded-lg bg-red-500 text-white text-sm border border-black hover:bg-red-600 cursor-pointer">
+                class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold border border-rose-200 transition-colors cursor-pointer">
                 Delete
             </button>
         </div>
@@ -93,6 +94,7 @@ function addTodo(x) {
     const p = li.querySelector("p")
     p.textContent = x.text
     p.classList.toggle("line-through", x.isCompleted)           // true adds the class, false removes it
+    p.classList.toggle("text-red-500", x.isCompleted)           
 
     todoList.append(li);                                   // Step : Append list item to parent -> ul.append(li)
 }
@@ -152,10 +154,12 @@ function resetForm(){
 // Event Delegation  --> Works for todos added later too, b/c the listener is on the parent <ul>
 
 todoList.addEventListener("click", (e) => {
-    e.stopPropagation;
+    e.stopPropagation();
 
     let li = e.target.closest("li");                       // Grab closest parent <li>
     let id = Number(li?.dataset?.id);                      // Extract stored data-id from <li> ; strings --> Number conversion
+
+    if (!li) return;                            
 
     let btn = e.target.closest("button");                  // Grab nearest button clicked
     let action = btn?.dataset.action;                      // Read action type: "edit" or "delete"
@@ -173,7 +177,7 @@ todoList.addEventListener("click", (e) => {
         
         formBtn.textContent = "Update"
         editTodoID = id;
-        return
+        return        
     }
 
     // ---- DELETE ----
@@ -187,7 +191,7 @@ todoList.addEventListener("click", (e) => {
     const checkbox = li.querySelector('input[type="checkbox"]');                // Selecting the Checkbox (inside List)
     if (!checkbox) return;                                                      // If the checkbox does NOT exist...return
 
-    if ((e.target !== checkbox) && (e.target!==btn)){             // If target is not checkbox wwe have to flip...otherwise it will flip Normal behaviour
+    if (e.target !== checkbox){             // If target is not checkbox wwe have to flip...otherwise it will flip Normal behaviour
         checkbox.checked = !checkbox.checked
     }
 
@@ -198,10 +202,10 @@ todoList.addEventListener("click", (e) => {
 
     // Update UI
     li.querySelector("p").classList.toggle("line-through",checkbox.checked)
+    li.querySelector("p").classList.toggle("text-red-500",checkbox.checked)
 
     // Browser Storage
     saveTodos();
-
 });
 
 
@@ -226,3 +230,18 @@ function deleteTodo(e, id) {
 
 // How Edit will be done??
 // When we will click on Edit all content of li will go to input form and add button will change to update
+
+
+// To Show How much task is Complete and How much not...
+function taskCompleted(){
+    const taskOpen = document.querySelector("#task-open")
+    const taskCompleted = document.querySelector("#task-completed")
+    
+    taskOpen.textContent = todos.reduce((acc,value)=>{
+        return !(value.isCompleted) ? acc+=1 : acc
+    },0)
+    taskCompleted.textContent = todos.reduce((acc,value)=>{
+        return (value.isCompleted) ? acc+=1 : acc
+    },0)
+}
+taskCompleted();            // Initial Render

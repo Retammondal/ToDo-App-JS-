@@ -3,37 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ToDo App</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="index.css">
 </head>
-<body>
-    <div class="max-w-md mx-auto rounded-md bg-slate-50 overflow-hidden mt-10 border">
-        <div class="bg-indigo-400 p-5 text-white border-b border-black flex justify-center">
-            <h1 class="font-serif text-lg font-semibold">ToDo App</h1>
-        </div>
-        <div class="p-5">
-            <form id="todo-form" action="" class="flex gap-7">
-                <input id="todo-input" type="text" placeholder="Enter Task Description..." class="flex-1 border border-black p-2 rounded-md">
-                <button id="form-btn" class="bg-indigo-400 rounded-md px-4 text-white font-serif">Add</button>
-            </form>
-            <div class="flex justify-between pt-6 pb-1 text-xs border-b border-black">
-                <p>Tasks <span></span></p>
-                <p>Completed : 1</p>
+<body class="bg-gradient-to-br from-slate-100 via-indigo-50/30 to-slate-200 min-h-screen py-10 px-4 antialiased flex justify-center items-start">
+    <div class="max-w-md w-full mx-auto rounded-2xl bg-white shadow-xl shadow-slate-200/70 border border-slate-200/80 overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 p-6 text-white flex items-center justify-between shadow-inner">
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">ToDo App</h1>
+                <p class="text-xs text-indigo-100/80 mt-0.5">Manage your daily priorities</p>
             </div>
-            <ul id="todo-list" class="py-4 flex gap-3 flex-col">
-                <!-- <li data-id="1" class="flex gap-2 border border-slate-300 p-4 rounded-xl">
-                    <input data-id="1" type="checkbox">
-                    <p class="flex-1">Sample Text</p>
-                    <div class="flex gap-3">
-                        <button data-id="1">Edit</button>
-                        <button data-id="1">Delete</button>
-                    </div>
-                </li> -->
-                <!-- <li>Go to Gym</li>
-                <li>Revision Python</li>
-                <li>Complete Today's Lecture</li> -->
-            </ul>
+            <div class="h-9 w-9 rounded-xl bg-white/15 backdrop-blur-xs flex items-center justify-center border border-white/20 shadow-xs">
+                <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="p-6">
+            <!-- Add / Update Form -->
+            <form id="todo-form" action="" class="flex gap-2.5">
+                <input id="todo-input" type="text" placeholder="Enter Task Description..." class="flex-1 bg-slate-50/80 border border-slate-200 p-2.5 px-3.5 rounded-xl text-sm outline-none focus:border-indigo-500 focus:bg-white focus:ring-3 focus:ring-indigo-100 text-slate-800 placeholder:text-slate-400 transition-all duration-150">
+                <button id="form-btn" class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 transition-all duration-150 text-white font-semibold text-sm px-5 py-2.5 rounded-xl cursor-pointer shadow-sm shadow-indigo-200 shrink-0">Add</button>
+            </form>
+
+            <!-- Status Counters -->
+            <div class="flex justify-between items-center pt-5 pb-3 border-b border-slate-100 text-xs">
+                <p class="font-medium text-slate-500 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                    Tasks To be Done : (<span id="task-open" class="font-bold text-slate-700">0</span>)
+                </p>
+                <p class="font-medium text-slate-500 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    Completed : <span id="task-completed" class="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">0</span>
+                </p>
+            </div>
+
+            <!-- Task List -->
+            <ul id="todo-list" class="py-4 flex gap-2.5 flex-col"></ul>
         </div>
     </div>
 
